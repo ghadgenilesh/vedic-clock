@@ -9,7 +9,7 @@ import { useLocation } from '@/lib/location-context';
 
 export default function SettingsScreen() {
   const colorScheme = useColorScheme();
-  const colors = Colors[colorScheme ?? 'light'];
+  const colors = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
   const { location, setManualLocation, refreshGPS } = useLocation();
 
   const [lat, setLat] = useState(location?.lat.toString() ?? '');

@@ -16,7 +16,7 @@ const RASHI_SYMBOLS = ['♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', '
 
 export default function PlanetsScreen() {
   const colorScheme = useColorScheme();
-  const colors = Colors[colorScheme ?? 'light'];
+  const colors = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
   const [planets, setPlanets] = useState<Record<string, number>>({});
   const [ayanamsa, setAyanamsa] = useState(0);
 

@@ -31,7 +31,7 @@ function InfoCard({ label, value, color, colors }: { label: string; value: strin
 
 export default function VedicClockScreen() {
   const colorScheme = useColorScheme();
-  const colors = Colors[colorScheme ?? 'light'];
+  const colors = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
   const { location, loading } = useLocation();
 
   const [now, setNow] = useState(new Date());

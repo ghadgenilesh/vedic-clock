@@ -9,7 +9,7 @@ import { getUpcomingFestivals } from '@/lib/vedic-calc';
 
 export default function FestivalsScreen() {
   const colorScheme = useColorScheme();
-  const colors = Colors[colorScheme ?? 'light'];
+  const colors = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
 
   const now = new Date();
   const festivals = [

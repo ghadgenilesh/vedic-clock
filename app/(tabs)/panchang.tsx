@@ -35,7 +35,7 @@ function Section({ title, colors, children }: { title: string; colors: typeof Co
 
 export default function PanchangScreen() {
   const colorScheme = useColorScheme();
-  const colors = Colors[colorScheme ?? 'light'];
+  const colors = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
   const { location, loading } = useLocation();
   const [panchang, setPanchang] = useState<Panchang | null>(null);
 
