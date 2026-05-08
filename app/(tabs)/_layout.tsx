@@ -5,31 +5,59 @@ import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { LocationProvider } from '@/lib/location-context';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const colors = Colors[colorScheme ?? 'light'];
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+    <LocationProvider>
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: colors.tabIconSelected,
+          tabBarInactiveTintColor: colors.tabIconDefault,
+          tabBarStyle: { backgroundColor: colors.surface, borderTopColor: colors.border },
+          headerShown: false,
+          tabBarButton: HapticTab,
         }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-    </Tabs>
+      >
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: 'Clock',
+            tabBarIcon: ({ color }) => <IconSymbol size={26} name="clock.fill" color={color} />,
+          }}
+        />
+        <Tabs.Screen
+          name="panchang"
+          options={{
+            title: 'Panchang',
+            tabBarIcon: ({ color }) => <IconSymbol size={26} name="calendar" color={color} />,
+          }}
+        />
+        <Tabs.Screen
+          name="planets"
+          options={{
+            title: 'Planets',
+            tabBarIcon: ({ color }) => <IconSymbol size={26} name="star.fill" color={color} />,
+          }}
+        />
+        <Tabs.Screen
+          name="festivals"
+          options={{
+            title: 'Festivals',
+            tabBarIcon: ({ color }) => <IconSymbol size={26} name="sparkles" color={color} />,
+          }}
+        />
+        <Tabs.Screen
+          name="settings"
+          options={{
+            title: 'Settings',
+            tabBarIcon: ({ color }) => <IconSymbol size={26} name="gearshape.fill" color={color} />,
+          }}
+        />
+      </Tabs>
+    </LocationProvider>
   );
 }
