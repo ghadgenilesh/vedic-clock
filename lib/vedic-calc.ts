@@ -441,7 +441,7 @@ export function getAbhijitMuhurta(sunrise: Date, sunset: Date): { start: Date; e
   };
 }
 
-// ─── Hindu Festivals (fixed Gregorian approximations) ─────────────────────────
+// ─── Hindu Festivals — computed from tithi & solar ingress ───────────────────
 
 export interface Festival {
   name: string;
@@ -449,23 +449,151 @@ export interface Festival {
   description: string;
 }
 
+/**
+ * Tithi indices (0-based, 0-29):
+ *   Shukla 1..15 → indices 0..14
+ *   Krishna 1..15 → indices 15..29  (Krishna 15 = Amavasya = index 29)
+ */
+const S = (n: number) => n - 1;        // Shukla Nth tithi
+const K = (n: number) => 15 + n - 1;  // Krishna Nth tithi
+
+/**
+ * Get the sidereal tithi index (0-29) at local noon on the given day-of-year.
+ * Uses JD at 06:00 UTC as a sunrise proxy.
+ */
+function tithiOnDay(year: number, doy: number): number {
+  const d = new Date(year, 0, doy); // Jan 0 = Dec 31 of prev year, etc — JS handles it
+  const jd = dateToJD(new Date(
+    Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 6, 0, 0)
+  ));
+  const ay = lahiriAyanamsa(jd);
+  const sunSid = normalizeAngle(sunLongitude(jd) - ay);
+  const moonSid = normalizeAngle(moonLongitude(jd) - ay);
+  return Math.floor(normalizeAngle(moonSid - sunSid) / 12);
+}
+
+/**
+ * Find the first day-of-year on or after (approxDoy - 3) where tithi == target.
+ * Searches within a window of windowDays days.
+ */
+function findTithiDay(year: number, targetTithi: number, approxDoy: number, windowDays = 45): Date {
+  for (let doy = approxDoy - 3; doy < approxDoy + windowDays; doy++) {
+    if (tithiOnDay(year, doy) === targetTithi) {
+      return new Date(year, 0, doy);
+    }
+  }
+  // Fallback: return approximate date if not found in window
+  return new Date(year, 0, approxDoy);
+}
+
+/**
+ * Find the day when sidereal sun crosses targetDeg (e.g., 270 for Makara ingress).
+ * approxDoy is the expected day-of-year; searches ±20 days around it.
+ */
+function findSunIngress(year: number, targetDeg: number, approxDoy: number): Date {
+  for (let doy = approxDoy - 20; doy < approxDoy + 20; doy++) {
+    const d = new Date(year, 0, doy);
+    const jd = dateToJD(new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 6, 0, 0)));
+    const sunToday = normalizeAngle(sunLongitude(jd) - lahiriAyanamsa(jd));
+    const sunYest = normalizeAngle(sunLongitude(jd - 1) - lahiriAyanamsa(jd - 1));
+    // Detect crossing (including 359°→1° wrap-around)
+    const crossed =
+      (sunYest <= targetDeg && sunToday > targetDeg) ||
+      (targetDeg < 5 && sunYest > 355 && sunToday < 5);
+    if (crossed) return d;
+  }
+  return new Date(year, 0, approxDoy);
+}
+
+/**
+ * Compute accurate Hindu festival dates for a given Gregorian year using
+ * astronomical tithi (lunar phase) and solar ingress calculations.
+ * Approximate day-of-year values are used only to anchor the search window;
+ * actual dates are determined by the lunar calendar.
+ */
 export function getUpcomingFestivals(year: number): Festival[] {
   return [
-    { name: 'Makar Sankranti', date: new Date(year, 0, 14), description: 'Sun enters Capricorn' },
-    { name: 'Vasant Panchami', date: new Date(year, 1, 2), description: 'Goddess Saraswati' },
-    { name: 'Maha Shivaratri', date: new Date(year, 1, 26), description: 'Night of Shiva' },
-    { name: 'Holi', date: new Date(year, 2, 14), description: 'Festival of Colors' },
-    { name: 'Ugadi / Gudi Padwa', date: new Date(year, 3, 6), description: 'Vedic New Year' },
-    { name: 'Ram Navami', date: new Date(year, 3, 14), description: 'Birth of Lord Rama' },
-    { name: 'Akshaya Tritiya', date: new Date(year, 4, 9), description: 'Auspicious day for new beginnings' },
-    { name: 'Guru Purnima', date: new Date(year, 6, 10), description: 'Honour to teachers' },
-    { name: 'Janmashtami', date: new Date(year, 7, 16), description: 'Birth of Lord Krishna' },
-    { name: 'Ganesh Chaturthi', date: new Date(year, 8, 2), description: 'Birthday of Ganesha' },
-    { name: 'Navratri', date: new Date(year, 9, 3), description: '9 nights of Durga' },
-    { name: 'Dussehra', date: new Date(year, 9, 12), description: 'Victory of Rama over Ravana' },
-    { name: 'Diwali', date: new Date(year, 9, 28), description: 'Festival of Lights' },
-    { name: 'Kartik Purnima', date: new Date(year, 10, 5), description: 'Full moon of Kartik' },
-  ];
+    {
+      name: 'Makar Sankranti',
+      date: findSunIngress(year, 270, 14),
+      description: 'Sidereal Sun enters Makara (Capricorn)',
+    },
+    {
+      name: 'Vasant Panchami',
+      date: findTithiDay(year, S(5), 33),
+      description: 'Magha Shukla Panchami · Saraswati Puja',
+    },
+    {
+      name: 'Maha Shivaratri',
+      date: findTithiDay(year, K(14), 50),
+      description: 'Magha / Phalguna Krishna Chaturdashi · Night of Shiva',
+    },
+    {
+      name: 'Holi',
+      date: findTithiDay(year, S(15), 70),
+      description: 'Phalguna Purnima · Festival of Colours',
+    },
+    {
+      name: 'Ugadi / Gudi Padwa',
+      date: findTithiDay(year, S(1), 90),
+      description: 'Chaitra Shukla Pratipada · Vedic New Year',
+    },
+    {
+      name: 'Ram Navami',
+      date: findTithiDay(year, S(9), 96),
+      description: 'Chaitra Shukla Navami · Birth of Lord Rama',
+    },
+    {
+      name: 'Akshaya Tritiya',
+      date: findTithiDay(year, S(3), 118),
+      description: 'Vaishakha Shukla Tritiya · Most auspicious Muhurta',
+    },
+    {
+      name: 'Buddha Purnima',
+      date: findTithiDay(year, S(15), 120),
+      description: 'Vaishakha Purnima · Birth of Gautama Buddha',
+    },
+    {
+      name: 'Guru Purnima',
+      date: findTithiDay(year, S(15), 188),
+      description: 'Ashadha Purnima · Honour to the Guru lineage',
+    },
+    {
+      name: 'Janmashtami',
+      date: findTithiDay(year, K(8), 230),
+      description: 'Bhadrapada Krishna Ashtami · Birth of Lord Krishna',
+    },
+    {
+      name: 'Ganesh Chaturthi',
+      date: findTithiDay(year, S(4), 243),
+      description: 'Bhadrapada Shukla Chaturthi · Birthday of Ganesha',
+    },
+    {
+      name: 'Navratri',
+      date: findTithiDay(year, S(1), 270),
+      description: 'Ashvina Shukla Pratipada · 9 nights of Durga',
+    },
+    {
+      name: 'Dussehra (Vijayadashami)',
+      date: findTithiDay(year, S(10), 278),
+      description: 'Ashvina Shukla Dashami · Victory of Rama over Ravana',
+    },
+    {
+      name: 'Dhanteras',
+      date: findTithiDay(year, K(13), 295),
+      description: 'Kartika Krishna Trayodashi · Day of Wealth & Dhanvantari',
+    },
+    {
+      name: 'Diwali',
+      date: findTithiDay(year, K(15), 298),
+      description: 'Kartika Amavasya · Festival of Lights',
+    },
+    {
+      name: 'Kartik Purnima',
+      date: findTithiDay(year, S(15), 313),
+      description: 'Kartika Purnima · Dev Diwali · Full moon of Kartika',
+    },
+  ].sort((a, b) => a.date.getTime() - b.date.getTime());
 }
 
 // ─── Formatter helpers ────────────────────────────────────────────────────────

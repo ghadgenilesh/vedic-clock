@@ -1,21 +1,51 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { i18n } from '@/lib/i18n';
-import { getUpcomingFestivals } from '@/lib/vedic-calc';
+import { Festival, getUpcomingFestivals } from '@/lib/vedic-calc';
+
+const CACHE_VERSION = 1; // bump this to invalidate old caches
+
+function loadFestivalsForYear(year: number): Festival[] {
+  const key = `vedicFestivals_v${CACHE_VERSION}_${year}`;
+  try {
+    if (typeof localStorage !== 'undefined') {
+      const raw = localStorage.getItem(key);
+      if (raw) {
+        const parsed: Array<{ name: string; date: string; description: string }> = JSON.parse(raw);
+        return parsed.map((f) => ({ ...f, date: new Date(f.date) }));
+      }
+    }
+  } catch { /* storage unavailable */ }
+
+  const festivals = getUpcomingFestivals(year);
+
+  try {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(key, JSON.stringify(festivals));
+    }
+  } catch { /* quota exceeded — skip caching */ }
+
+  return festivals;
+}
 
 export default function FestivalsScreen() {
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
 
   const now = new Date();
-  const festivals = [
-    ...getUpcomingFestivals(now.getFullYear()),
-    ...getUpcomingFestivals(now.getFullYear() + 1),
-  ].filter((f) => f.date >= now).slice(0, 20);
+
+  const festivals = useMemo(() => {
+    const thisYear = loadFestivalsForYear(now.getFullYear());
+    const nextYear = loadFestivalsForYear(now.getFullYear() + 1);
+    return [...thisYear, ...nextYear]
+      .filter((f) => f.date >= now)
+      .slice(0, 20);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [now.getFullYear()]); // recompute only when year changes
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
