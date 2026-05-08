@@ -32,7 +32,7 @@ function InfoCard({ label, value, color, colors }: { label: string; value: strin
 export default function VedicClockScreen() {
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
-  const { location, loading } = useLocation();
+  const { location, loading, error } = useLocation();
 
   const [now, setNow] = useState(new Date());
   const [panchang, setPanchang] = useState<Panchang | null>(null);
@@ -156,7 +156,12 @@ export default function VedicClockScreen() {
         </View>
 
         {location?.name && (
-          <Text style={[styles.location, { color: colors.subText }]}>📍 {location.name}</Text>
+          <Text style={[styles.location, { color: location.isManual ? colors.accent : colors.subText }]}>
+            📍 {location.name}
+          </Text>
+        )}
+        {error && (
+          <Text style={[styles.locationHint, { color: colors.inauspicious }]}>{error}</Text>
         )}
       </ScrollView>
     </SafeAreaView>
@@ -223,4 +228,5 @@ const styles = StyleSheet.create({
   stripValue: { fontSize: 14, fontWeight: '600' },
   divider: { width: 1, marginHorizontal: 4 },
   location: { fontSize: 12, marginTop: 8 },
+  locationHint: { fontSize: 11, marginTop: 4, textAlign: 'center', paddingHorizontal: 16 },
 });
