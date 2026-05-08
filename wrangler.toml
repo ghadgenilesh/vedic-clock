@@ -1,6 +1,10 @@
 name = "vedic-clock"
 compatibility_date = "2026-05-08"
 pages_build_output_dir = "dist"
+
+[assets]
+directory = "dist"
+
 [observability]
 enabled = false
 head_sampling_rate = 1
