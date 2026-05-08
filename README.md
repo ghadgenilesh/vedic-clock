@@ -68,7 +68,7 @@ If you're new to this system, here's what these words mean:
 
 ## 🌐 Try it Live
 
-👉 **[vedic-clock.pages.dev](https://vedic-clock.pages.dev)** *(coming soon via Cloudflare Pages)*
+👉 **[vedicclock.stacklets.app](https://vedicclock.stacklets.app)**
 
 ---
 
