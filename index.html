@@ -534,14 +534,14 @@
   }
 
   .tab-icon {
-    font-size: 20px;
+    font-size: 18px;
     line-height: 1;
   }
 
   .tab-label {
     font-family: 'Cinzel', serif;
-    font-size: 8px;
-    letter-spacing: 0.1em;
+    font-size: 7px;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
   }
 
@@ -969,6 +969,106 @@
     font-style: italic;
   }
 
+  /* ── Festivals tab ── */
+  .festival-month-header {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--t-text-muted);
+    text-transform: uppercase;
+    padding: 0 20px;
+    margin: 20px 0 8px;
+  }
+
+  .festival-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin: 0 20px 6px;
+    padding: 12px 14px;
+    background: var(--t-card);
+    border: 0.5px solid var(--t-border);
+    border-radius: 14px;
+    transition: background 0.15s;
+    position: relative;
+  }
+
+  .festival-item.is-today {
+    background: rgba(232,137,12,0.1);
+    border-color: rgba(232,137,12,0.4);
+  }
+
+  .festival-item.is-past {
+    opacity: 0.52;
+  }
+
+  .festival-date-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 36px;
+    flex-shrink: 0;
+  }
+
+  .festival-day {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    color: var(--t-text);
+    line-height: 1;
+    font-weight: 400;
+  }
+
+  .festival-month-abbr {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--t-text-muted);
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .festival-info { flex: 1; min-width: 0; }
+
+  .festival-name {
+    font-size: 14px;
+    color: var(--t-text);
+    font-style: italic;
+  }
+
+  .festival-desc {
+    font-size: 11px;
+    color: var(--t-text-muted);
+    margin-top: 2px;
+    line-height: 1.5;
+  }
+
+  .festival-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: 0.06em;
+    padding: 2px 7px;
+    border-radius: 8px;
+    margin-top: 5px;
+    display: inline-block;
+  }
+
+  .ftag-pan  { background: rgba(15,122,110,0.2);  color: #5DCAA5; border: 0.5px solid rgba(15,122,110,0.35); }
+  .ftag-reg  { background: rgba(200,160,80,0.15); color: var(--gold-light); border: 0.5px solid rgba(200,160,80,0.3); }
+  .ftag-fast { background: rgba(127,119,221,0.18); color: #AFA9EC; border: 0.5px solid rgba(127,119,221,0.3); }
+
+  .festival-today-badge {
+    position: absolute;
+    top: 8px; right: 10px;
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    padding: 2px 7px;
+    border-radius: 8px;
+    background: rgba(232,137,12,0.25);
+    color: var(--saffron-light);
+    border: 0.5px solid rgba(232,137,12,0.5);
+  }
+
   /* ── More tab ── */
   .more-item {
     display: flex;
@@ -1300,6 +1400,16 @@
     <div style="height:16px"></div>
   </div>
 
+  <!-- ══ TAB: Festivals ══ -->
+  <div class="tab-page" id="page-festivals">
+    <div class="section-label" style="margin-top:20px">Indian Festivals</div>
+    <div style="padding:0 20px 10px;font-size:11px;color:var(--t-text-muted);font-style:italic;">
+      Past 2 months &amp; next 10 months of major Vedic &amp; Indian festivals.
+    </div>
+    <div id="festival-list"></div>
+    <div style="height:16px"></div>
+  </div>
+
   <!-- ══ TAB: About ══ -->
   <div class="tab-page" id="page-about">
     <div class="section-label" style="margin-top:20px">Learn · Vedic Time</div>
@@ -1385,6 +1495,10 @@
     <div class="tab-item" onclick="switchTab('sunarc')" id="tab-sunarc">
       <div class="tab-icon">⊙</div>
       <div class="tab-label">Sun Arc</div>
+    </div>
+    <div class="tab-item" onclick="switchTab('festivals')" id="tab-festivals">
+      <div class="tab-icon">🪔</div>
+      <div class="tab-label">Festivals</div>
     </div>
     <div class="tab-item" onclick="switchTab('about')" id="tab-about">
       <div class="tab-icon">ℹ&#xFE0E;</div>
@@ -2311,6 +2425,7 @@ function switchTab(name) {
   if (name === 'panchang') renderPanchangPage();
   if (name === 'muhurtas') renderMuhurtasPage();
   if (name === 'sunarc') renderSunArcPage();
+  if (name === 'festivals') renderFestivalsPage();
 }
 
 // ─── Panchang tab renderer ────────────────────────────────────────────────────
@@ -2436,6 +2551,160 @@ function renderSunArcPage() {
   ctx.textAlign='right';  ctx.fillText(minToTime(sunsetMin),W-pad,arcCy-6);
   ctx.textAlign='center'; ctx.font='12px Cinzel,serif'; ctx.fillStyle=arcNoonColor;
   ctx.fillText('Solar noon · '+minToTime((sunriseMin+sunsetMin)/2), arcCx, 18);
+}
+
+// ─── Festivals data ──────────────────────────────────────────────────────────
+
+// tag: 'pan' = pan-India | 'reg' = regional | 'fast' = vrat/fast
+const FESTIVALS = [
+  // 2025
+  { date: '2025-01-14', name: 'Makar Sankranti',      desc: 'Sun enters Capricorn · harvest festival · kite flying',                   tag: 'pan'  },
+  { date: '2025-01-13', name: 'Lohri',                 desc: 'Punjabi harvest fire festival, eve of Makar Sankranti',                   tag: 'reg'  },
+  { date: '2025-01-14', name: 'Pongal',                desc: 'Tamil harvest thanksgiving; four-day celebration',                        tag: 'reg'  },
+  { date: '2025-01-29', name: 'Vasant Panchami',       desc: 'Saraswati Puja — goddess of learning, arts & wisdom',                    tag: 'pan'  },
+  { date: '2025-02-26', name: 'Maha Shivratri',        desc: 'Great night of Shiva · all-night vigil & fast',                          tag: 'pan'  },
+  { date: '2025-03-13', name: 'Holi',                  desc: 'Festival of colours · triumph of good over evil',                        tag: 'pan'  },
+  { date: '2025-03-12', name: 'Holika Dahan',          desc: 'Bonfire night before Holi · burning of Holika',                         tag: 'pan'  },
+  { date: '2025-03-30', name: 'Gudi Padwa',            desc: 'Maharashtrian & Konkani New Year · start of Hindu new year',             tag: 'reg'  },
+  { date: '2025-03-30', name: 'Ugadi',                 desc: 'Telugu & Kannada New Year',                                              tag: 'reg'  },
+  { date: '2025-04-06', name: 'Ram Navami',            desc: 'Birthday of Lord Ram · ninth day of Chaitra Navratri',                   tag: 'pan'  },
+  { date: '2025-04-10', name: 'Mahavir Jayanti',       desc: 'Birth anniversary of Tirthankara Mahavira',                              tag: 'pan'  },
+  { date: '2025-04-13', name: 'Baisakhi',              desc: 'Punjabi New Year & harvest festival · founding of Khalsa',               tag: 'reg'  },
+  { date: '2025-04-14', name: 'Tamil New Year',        desc: 'Tamil solar new year (Puthandu)',                                        tag: 'reg'  },
+  { date: '2025-04-18', name: 'Good Friday',           desc: 'National holiday',                                                       tag: 'pan'  },
+  { date: '2025-05-12', name: 'Buddha Purnima',        desc: 'Birth, enlightenment & parinirvana of Gautama Buddha',                   tag: 'pan'  },
+  { date: '2025-06-27', name: 'Rath Yatra',            desc: 'Chariot procession of Lord Jagannath, Puri',                             tag: 'pan'  },
+  { date: '2025-08-09', name: 'Nag Panchami',          desc: 'Worship of serpent deities · monsoon festival',                         tag: 'pan'  },
+  { date: '2025-08-16', name: 'Raksha Bandhan',        desc: 'Festival of the bond between brothers and sisters',                      tag: 'pan'  },
+  { date: '2025-08-16', name: 'Onam (Atham)',          desc: 'Kerala harvest festival begins — 10-day celebration',                    tag: 'reg'  },
+  { date: '2025-08-20', name: 'Janmashtami',           desc: 'Birth of Lord Krishna · midnight celebrations, dahi handi',              tag: 'pan'  },
+  { date: '2025-08-26', name: 'Onam (Thiruonam)',      desc: 'Main day of Onam — King Mahabali\'s homecoming',                        tag: 'reg'  },
+  { date: '2025-08-27', name: 'Ganesh Chaturthi',      desc: 'Birth of Lord Ganesha · 10-day festival begins',                        tag: 'pan'  },
+  { date: '2025-09-05', name: 'Ganesh Visarjan',       desc: 'Immersion of Ganesha idols, end of Ganesh Chaturthi',                   tag: 'pan'  },
+  { date: '2025-09-22', name: 'Navratri begins',       desc: 'Nine nights of Goddess Durga · garba & dandiya',                        tag: 'pan'  },
+  { date: '2025-10-01', name: 'Maha Navami',           desc: 'Ninth day of Navratri · Saraswati Puja & Ayudha Puja',                  tag: 'pan'  },
+  { date: '2025-10-02', name: 'Dussehra (Vijayadashami)', desc: 'Victory of Ram over Ravana · burning of Ravana effigies',            tag: 'pan'  },
+  { date: '2025-10-20', name: 'Karva Chauth',          desc: 'Wives fast for husband\'s long life · moon-rise ritual',                tag: 'pan'  },
+  { date: '2025-10-20', name: 'Dhanteras',             desc: 'Auspicious shopping day · first day of Diwali festivities',             tag: 'pan'  },
+  { date: '2025-10-22', name: 'Diwali',                desc: 'Festival of Lights · Lakshmi Puja · fireworks & sweets',                tag: 'pan'  },
+  { date: '2025-10-23', name: 'Govardhan Puja',        desc: 'Krishna lifted Govardhan hill · Annakut celebration',                   tag: 'pan'  },
+  { date: '2025-10-24', name: 'Bhai Dooj',             desc: 'Sisters pray for brothers\' long life',                                 tag: 'pan'  },
+  { date: '2025-11-05', name: 'Chhath Puja',           desc: 'Sun worship · offerings at river banks at sunrise & sunset',            tag: 'reg'  },
+  { date: '2025-11-24', name: 'Guru Nanak Jayanti',    desc: 'Birth anniversary of Guru Nanak Dev Ji',                                tag: 'pan'  },
+  { date: '2025-12-25', name: 'Christmas',             desc: 'National holiday',                                                       tag: 'pan'  },
+  // 2026
+  { date: '2026-01-14', name: 'Makar Sankranti',       desc: 'Sun enters Capricorn · harvest festival · kite flying',                  tag: 'pan'  },
+  { date: '2026-01-13', name: 'Lohri',                 desc: 'Punjabi harvest fire festival',                                          tag: 'reg'  },
+  { date: '2026-01-14', name: 'Pongal',                desc: 'Tamil harvest thanksgiving; four-day celebration',                       tag: 'reg'  },
+  { date: '2026-02-14', name: 'Vasant Panchami',       desc: 'Saraswati Puja — goddess of learning, arts & wisdom',                   tag: 'pan'  },
+  { date: '2026-02-15', name: 'Maha Shivratri',        desc: 'Great night of Shiva · all-night vigil & fast',                         tag: 'pan'  },
+  { date: '2026-03-02', name: 'Holika Dahan',          desc: 'Bonfire night before Holi',                                             tag: 'pan'  },
+  { date: '2026-03-03', name: 'Holi',                  desc: 'Festival of colours · triumph of good over evil',                       tag: 'pan'  },
+  { date: '2026-03-19', name: 'Gudi Padwa',            desc: 'Maharashtrian New Year · Hindu new year begins',                        tag: 'reg'  },
+  { date: '2026-03-19', name: 'Ugadi',                 desc: 'Telugu & Kannada New Year',                                             tag: 'reg'  },
+  { date: '2026-03-26', name: 'Ram Navami',            desc: 'Birthday of Lord Ram',                                                  tag: 'pan'  },
+  { date: '2026-04-02', name: 'Mahavir Jayanti',       desc: 'Birth anniversary of Tirthankara Mahavira',                             tag: 'pan'  },
+  { date: '2026-04-13', name: 'Baisakhi',              desc: 'Punjabi New Year & harvest festival',                                   tag: 'reg'  },
+  { date: '2026-04-14', name: 'Tamil New Year',        desc: 'Tamil solar new year (Puthandu)',                                       tag: 'reg'  },
+  { date: '2026-05-01', name: 'Buddha Purnima',        desc: 'Birth, enlightenment & parinirvana of Gautama Buddha',                  tag: 'pan'  },
+  { date: '2026-07-16', name: 'Rath Yatra',            desc: 'Chariot procession of Lord Jagannath, Puri',                            tag: 'pan'  },
+  { date: '2026-07-28', name: 'Nag Panchami',          desc: 'Worship of serpent deities',                                            tag: 'pan'  },
+  { date: '2026-08-05', name: 'Raksha Bandhan',        desc: 'Festival of the bond between brothers and sisters',                     tag: 'pan'  },
+  { date: '2026-08-09', name: 'Janmashtami',           desc: 'Birth of Lord Krishna · midnight celebrations, dahi handi',             tag: 'pan'  },
+  { date: '2026-08-23', name: 'Ganesh Chaturthi',      desc: 'Birth of Lord Ganesha · 10-day festival begins',                       tag: 'pan'  },
+  { date: '2026-09-01', name: 'Ganesh Visarjan',       desc: 'Immersion of Ganesha idols',                                           tag: 'pan'  },
+  { date: '2026-09-05', name: 'Onam (Atham)',          desc: 'Kerala harvest festival begins — 10-day celebration',                   tag: 'reg'  },
+  { date: '2026-09-14', name: 'Onam (Thiruonam)',      desc: 'Main day of Onam — King Mahabali\'s homecoming',                       tag: 'reg'  },
+  { date: '2026-10-09', name: 'Navratri begins',       desc: 'Nine nights of Goddess Durga · garba & dandiya',                       tag: 'pan'  },
+  { date: '2026-10-17', name: 'Maha Navami',           desc: 'Ninth day of Navratri',                                                tag: 'pan'  },
+  { date: '2026-10-19', name: 'Dussehra (Vijayadashami)', desc: 'Victory of Ram over Ravana · burning of Ravana effigies',           tag: 'pan'  },
+  { date: '2026-11-08', name: 'Karva Chauth',          desc: 'Wives fast for husband\'s long life · moon-rise ritual',               tag: 'pan'  },
+  { date: '2026-11-08', name: 'Dhanteras',             desc: 'Auspicious shopping day · first day of Diwali festivities',            tag: 'pan'  },
+  { date: '2026-11-10', name: 'Diwali',                desc: 'Festival of Lights · Lakshmi Puja · fireworks & sweets',               tag: 'pan'  },
+  { date: '2026-11-11', name: 'Govardhan Puja',        desc: 'Krishna lifted Govardhan hill · Annakut celebration',                  tag: 'pan'  },
+  { date: '2026-11-12', name: 'Bhai Dooj',             desc: 'Sisters pray for brothers\' long life',                                tag: 'pan'  },
+  { date: '2026-11-25', name: 'Chhath Puja',           desc: 'Sun worship · offerings at river banks',                               tag: 'reg'  },
+  { date: '2026-11-14', name: 'Guru Nanak Jayanti',    desc: 'Birth anniversary of Guru Nanak Dev Ji',                               tag: 'pan'  },
+  { date: '2026-12-25', name: 'Christmas',             desc: 'National holiday',                                                      tag: 'pan'  },
+];
+
+const TAG_LABELS = { pan: 'Pan-India', reg: 'Regional', fast: 'Vrat / Fast' };
+const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+// ─── Festivals tab renderer ───────────────────────────────────────────────────
+
+function renderFestivalsPage() {
+  const list = document.getElementById('festival-list');
+  list.innerHTML = '';
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // Window: 2 months back, 10 months ahead
+  const windowStart = new Date(today);
+  windowStart.setMonth(windowStart.getMonth() - 2);
+  const windowEnd = new Date(today);
+  windowEnd.setMonth(windowEnd.getMonth() + 10);
+
+  // Filter & sort
+  const visible = FESTIVALS
+    .map(f => ({ ...f, dateObj: new Date(f.date + 'T00:00:00') }))
+    .filter(f => f.dateObj >= windowStart && f.dateObj <= windowEnd)
+    .sort((a, b) => a.dateObj - b.dateObj);
+
+  if (!visible.length) {
+    list.innerHTML = '<div style="padding:20px;text-align:center;font-style:italic;color:var(--t-text-muted);">No festivals in this window.</div>';
+    return;
+  }
+
+  let lastMonthKey = '';
+  let focusItem = null; // today's first item or next upcoming
+
+  visible.forEach(f => {
+    const monthKey = `${f.dateObj.getFullYear()}-${f.dateObj.getMonth()}`;
+    if (monthKey !== lastMonthKey) {
+      lastMonthKey = monthKey;
+      const hdr = document.createElement('div');
+      hdr.className = 'festival-month-header';
+      hdr.textContent = `${MONTH_NAMES[f.dateObj.getMonth()]} ${f.dateObj.getFullYear()}`;
+      list.appendChild(hdr);
+    }
+
+    const isToday = f.dateObj.getTime() === today.getTime();
+    const isPast  = f.dateObj < today;
+
+    const item = document.createElement('div');
+    item.className = 'festival-item' + (isToday ? ' is-today' : '') + (isPast ? ' is-past' : '');
+
+    const monthAbbr = MONTH_NAMES[f.dateObj.getMonth()].slice(0, 3).toUpperCase();
+    const tagClass  = { pan: 'ftag-pan', reg: 'ftag-reg', fast: 'ftag-fast' }[f.tag] || 'ftag-pan';
+
+    item.innerHTML = `
+      ${isToday ? '<div class="festival-today-badge">Today</div>' : ''}
+      <div class="festival-date-col">
+        <div class="festival-day">${f.dateObj.getDate()}</div>
+        <div class="festival-month-abbr">${monthAbbr}</div>
+      </div>
+      <div class="festival-info">
+        <div class="festival-name">${f.name}</div>
+        <div class="festival-desc">${f.desc}</div>
+        <span class="festival-tag ${tagClass}">${TAG_LABELS[f.tag]}</span>
+      </div>
+    `;
+    list.appendChild(item);
+
+    // Pin to the first today/upcoming item
+    if (!focusItem && !isPast) focusItem = item;
+  });
+
+  // Scroll the tab page so the focus item is near the top (with a little breathing room)
+  if (focusItem) {
+    setTimeout(() => {
+      const page = document.getElementById('page-festivals');
+      const itemTop = focusItem.offsetTop;
+      page.scrollTo({ top: Math.max(0, itemTop - 60), behavior: 'smooth' });
+    }, 80);
+  }
 }
 
 // ─── Boot ────────────────────────────────────────────────────────────────────
