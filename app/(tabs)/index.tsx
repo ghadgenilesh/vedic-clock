@@ -134,9 +134,19 @@ export default function VedicClockScreen() {
           </View>
         </View>
 
-        <Text style={[styles.digitalTime, { color: colors.text }]}>
-          {now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
-        </Text>
+        <View style={styles.timeLocationRow}>
+          <Text style={[styles.digitalTime, { color: colors.text }]}>
+            {now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+          </Text>
+          {location?.name ? (
+            <Text
+              style={[styles.locationInline, { color: location.isManual ? colors.accent : colors.subText }]}
+              numberOfLines={1}
+            >
+              📍 {location.name}
+            </Text>
+          ) : null}
+        </View>
         <Text style={[styles.ghatiFormatted, { color: colors.subText }]}>
           {formatGhati(vt.ghati, vt.pala)}
         </Text>
@@ -163,11 +173,6 @@ export default function VedicClockScreen() {
           </View>
         </View>
 
-        {location?.name && (
-          <Text style={[styles.location, { color: location.isManual ? colors.accent : colors.subText }]}>
-            📍 {location.name}
-          </Text>
-        )}
         {error && (
           <Text style={[styles.locationHint, { color: colors.inauspicious }]}>{error}</Text>
         )}
@@ -228,13 +233,21 @@ const styles = StyleSheet.create({
   infoCard: { flex: 1, borderRadius: 12, padding: 14, borderWidth: 1, alignItems: 'center' },
   infoLabel: { fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4, fontFamily: Fonts.sans },
   infoValue: { fontSize: 18, fontFamily: Fonts.sansSemiBold },
-  digitalTime: { fontSize: 22, fontFamily: Fonts.sansBold, marginTop: 8 },
+  timeLocationRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginTop: 8,
+    paddingHorizontal: 4,
+  },
+  digitalTime: { fontSize: 22, fontFamily: Fonts.sansBold },
+  locationInline: { fontSize: 12, fontFamily: Fonts.sans, flexShrink: 1, marginLeft: 8, textAlign: 'right' },
   ghatiFormatted: { fontSize: 13, fontFamily: Fonts.sans, marginTop: 2, marginBottom: 12 },
   strip: { flexDirection: 'row', borderRadius: 14, borderWidth: 1, padding: 12, width: '100%', marginBottom: 12 },
   stripItem: { flex: 1, alignItems: 'center' },
   stripLabel: { fontSize: 10, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 3, fontFamily: Fonts.sans },
   stripValue: { fontSize: 14, fontFamily: Fonts.sansSemiBold },
   divider: { width: 1, marginHorizontal: 4 },
-  location: { fontSize: 12, marginTop: 8, fontFamily: Fonts.sans },
   locationHint: { fontSize: 11, marginTop: 4, textAlign: 'center', paddingHorizontal: 16, fontFamily: Fonts.sans },
 });
