@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors, Fonts } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { i18n } from '@/lib/i18n';
+import { useLanguage } from '@/lib/language-context';
 import { useLocation } from '@/lib/location-context';
 import { formatTime, getAbhijitMuhurta, getPanchang, Panchang } from '@/lib/vedic-calc';
 
@@ -38,6 +39,7 @@ export default function PanchangScreen() {
   const colors = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
   const { location, loading } = useLocation();
   const [panchang, setPanchang] = useState<Panchang | null>(null);
+  useLanguage(); // re-render when locale changes
 
   useEffect(() => {
     if (!location) return;
@@ -69,7 +71,7 @@ export default function PanchangScreen() {
           {new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
         </Text>
 
-        <Section title="Pancha Anga" colors={colors}>
+        <Section title={i18n.t('panchang.panchaAnga')} colors={colors}>
           <Row label={i18n.t('panchang.vara')} value={panchang.vara.vara} colors={colors} />
           <Row
             label={i18n.t('panchang.tithi')}
@@ -81,19 +83,19 @@ export default function PanchangScreen() {
           <Row
             label={i18n.t('panchang.nakshatra')}
             value={panchang.nakshatra.nakshatra}
-            sub={`Pada ${panchang.nakshatra.pada}`}
+            sub={`${i18n.t('panchang.pada')} ${panchang.nakshatra.pada}`}
             colors={colors}
           />
           <Row label={i18n.t('panchang.yoga')} value={panchang.yoga.yoga} colors={colors} />
           <Row label={i18n.t('panchang.karana')} value={panchang.karana.karana} colors={colors} />
         </Section>
 
-        <Section title="Sunrise & Sunset" colors={colors}>
+        <Section title={i18n.t('panchang.sunriseSunset')} colors={colors}>
           <Row label={i18n.t('clock.sunrise')} value={formatTime(panchang.sunrise)} colors={colors} />
           <Row label={i18n.t('clock.sunset')} value={formatTime(panchang.sunset)} colors={colors} />
         </Section>
 
-        <Section title="Kalam" colors={colors}>
+        <Section title={i18n.t('panchang.kalam')} colors={colors}>
           <Row
             label={i18n.t('panchang.rahuKalam')}
             value={`${formatTime(panchang.rahuKalam.start)} – ${formatTime(panchang.rahuKalam.end)}`}
@@ -114,7 +116,7 @@ export default function PanchangScreen() {
           />
         </Section>
 
-        <Section title="Muhurta" colors={colors}>
+        <Section title={i18n.t('panchang.muhurta')} colors={colors}>
           <Row
             label={i18n.t('panchang.abhijit')}
             value={`${formatTime(abhijit.start)} – ${formatTime(abhijit.end)}`}
@@ -125,7 +127,7 @@ export default function PanchangScreen() {
 
         <View style={[styles.footer, { borderColor: colors.border }]}>
           <Text style={[styles.footerText, { color: colors.subText }]}>
-            Ayanamsa (Lahiri): {panchang.ayanamsa.toFixed(4)}°
+            {i18n.t('planets.ayanamsa')}: {panchang.ayanamsa.toFixed(4)}°
           </Text>
         </View>
       </ScrollView>

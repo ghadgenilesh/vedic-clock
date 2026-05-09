@@ -4,7 +4,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Colors, Fonts } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { i18n, setLocale, SUPPORTED_LANGUAGES } from '@/lib/i18n';
+import { i18n, SUPPORTED_LANGUAGES } from '@/lib/i18n';
+import { useLanguage } from '@/lib/language-context';
 import { useLocation } from '@/lib/location-context';
 
 export default function SettingsScreen() {
@@ -15,12 +16,13 @@ export default function SettingsScreen() {
   const [lat, setLat] = useState(location?.lat.toString() ?? '');
   const [lon, setLon] = useState(location?.lon.toString() ?? '');
   const [selectedLang, setSelectedLang] = useState(i18n.locale);
+  const { setLocale } = useLanguage();
 
   function applyManual() {
     const la = parseFloat(lat);
     const lo = parseFloat(lon);
     if (isNaN(la) || isNaN(lo) || la < -90 || la > 90 || lo < -180 || lo > 180) {
-      Alert.alert('Invalid coordinates', 'Latitude must be –90 to 90, longitude –180 to 180.');
+      Alert.alert(i18n.t('settings.invalidCoords'), i18n.t('settings.invalidCoordsMsg'));
       return;
     }
     setManualLocation(la, lo);
@@ -49,7 +51,7 @@ export default function SettingsScreen() {
             <Text style={styles.buttonText}>🔄 {i18n.t('settings.autoDetect')}</Text>
           </TouchableOpacity>
 
-          <Text style={[styles.orText, { color: colors.subText }]}>— or —</Text>
+          <Text style={[styles.orText, { color: colors.subText }]}>{i18n.t('settings.or')}</Text>
 
           <TextInput
             style={[styles.input, { color: colors.text, borderColor: colors.border, backgroundColor: colors.surface }]}
@@ -97,7 +99,7 @@ export default function SettingsScreen() {
         </View>
 
         {/* About */}
-        <Text style={[styles.sectionTitle, { color: colors.subText }]}>About</Text>
+        <Text style={[styles.sectionTitle, { color: colors.subText }]}>{i18n.t('settings.about')}</Text>
         <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
           <Text style={[styles.aboutText, { color: colors.text }]}>Vedic Clock</Text>
           <Text style={[styles.aboutSub, { color: colors.subText }]}>

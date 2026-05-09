@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors, Fonts } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { i18n } from '@/lib/i18n';
+import { useLanguage } from '@/lib/language-context';
 import { dateToJD, getRashi, lahiriAyanamsa, RASHIS, siderealPlanetLongitudes } from '@/lib/vedic-calc';
 
 const PLANET_SYMBOLS: Record<string, string> = {
@@ -19,6 +20,7 @@ export default function PlanetsScreen() {
   const colors = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
   const [planets, setPlanets] = useState<Record<string, number>>({});
   const [ayanamsa, setAyanamsa] = useState(0);
+  useLanguage(); // re-render when locale changes
 
   useEffect(() => {
     const now = new Date();
@@ -41,7 +43,7 @@ export default function PlanetsScreen() {
         </Text>
 
         <View style={[styles.tableHeader, { borderBottomColor: colors.gold }]}>
-          <Text style={[styles.th, { color: colors.gold, flex: 1.2 }]}>Graha</Text>
+          <Text style={[styles.th, { color: colors.gold, flex: 1.2 }]}>{i18n.t('planets.graha')}</Text>
           <Text style={[styles.th, { color: colors.gold, flex: 1.5 }]}>{i18n.t('planets.rashi')}</Text>
           <Text style={[styles.th, { color: colors.gold, flex: 1 }]}>{i18n.t('planets.degrees')}</Text>
         </View>
@@ -72,7 +74,7 @@ export default function PlanetsScreen() {
         })}
 
         <View style={[styles.rashiGrid, { marginTop: 24 }]}>
-          <Text style={[styles.gridTitle, { color: colors.gold }]}>Rashi Chakra</Text>
+          <Text style={[styles.gridTitle, { color: colors.gold }]}>{i18n.t('planets.rashiChakra')}</Text>
           <View style={styles.grid}>
             {RASHIS.map((r, i) => (
               <View key={r} style={[styles.rashiCell, { backgroundColor: colors.surface, borderColor: colors.border }]}>

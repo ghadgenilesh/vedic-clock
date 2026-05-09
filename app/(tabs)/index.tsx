@@ -11,6 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors, Fonts, VedicPalette } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { i18n } from '@/lib/i18n';
+import { useLanguage } from '@/lib/language-context';
 import { useLocation } from '@/lib/location-context';
 import {
     formatGhati,
@@ -33,6 +34,7 @@ export default function VedicClockScreen() {
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
   const { location, loading, error } = useLocation();
+  useLanguage(); // re-render when locale changes
 
   const [now, setNow] = useState(new Date());
   const [panchang, setPanchang] = useState<Panchang | null>(null);

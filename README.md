@@ -15,7 +15,7 @@ The traditional Indian day is divided into **60 Ghatis** — each roughly 24 min
 The Panchang ("five limbs") is the Vedic almanac for every day. It tells you:
 - **Vara** — the ruling weekday deity
 - **Tithi** — the lunar day and whether it's waxing or waning
-- **Nakshatra** — the lunar mansion the Moon occupies
+- **Nakshatra** — the lunar mansion the Moon occupies, with Pada
 - **Yoga** — the combined energy of Sun and Moon
 - **Karana** — the half-tithi, for fine-grained timing
 
@@ -31,14 +31,15 @@ Know *when* to act — and *when not to*:
 ### 🪐 Graha (Planetary Positions)
 See where all nine Vedic planets (Navagraha) are positioned in the sky right now — in their **sidereal (Vedic) positions**, corrected with the Lahiri Ayanamsa. Includes the Rashi Chakra showing which sign each planet occupies.
 
-### 🎉 Festivals
-A living calendar of upcoming Hindu festivals with countdowns — from Makar Sankranti to Diwali — so you're never caught off guard.
-
 ### 🌍 Works Everywhere
 - Detects your location automatically for accurate local sunrise/sunset
 - Full **dark mode** support with a traditional saffron-gold palette
 - Works on iOS, Android, and in your browser
-- Available in **7 languages**: English, हिन्दी, संस्कृत, తెలుగు, தமிழ், ಕನ್ನಡ, मराठी
+- Available in **7 languages**: English, हिन्दी, संस्कृत, తెలుగు, தமிழ், ಕನ್ನಡ, मराठी — switch language and the **entire app** updates instantly, including tab labels, section headings, and all text
+
+### 🖋 Traditional Indian Typography
+- **Rozha One** — a bold Indian-heritage serif for titles and the Ghati display
+- **Hind** — a humanist Indian-heritage sans-serif supporting Latin and Devanagari script for all body text
 
 ---
 
@@ -54,6 +55,7 @@ If you're new to this system, here's what these words mean:
 | **Tithi** | One of 30 lunar days in a month, based on the Moon–Sun angle. |
 | **Paksha** | The fortnight — Shukla (waxing/bright) or Krishna (waning/dark). |
 | **Nakshatra** | One of 27 lunar mansions the Moon passes through each month. |
+| **Pada** | One of 4 quarters of a Nakshatra. |
 | **Yoga** | A quality of the day derived by adding Sun and Moon longitudes. |
 | **Karana** | Half of a Tithi — there are 11 types, each with a different nature. |
 | **Vara** | The weekday, each ruled by a planet (Ravi=Sun, Soma=Moon, etc.). |
