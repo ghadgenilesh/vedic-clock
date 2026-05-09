@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from 'expo-router';
 
 import { Colors, Fonts } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
@@ -39,7 +40,12 @@ export default function PanchangScreen() {
   const colors = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
   const { location, loading } = useLocation();
   const [panchang, setPanchang] = useState<Panchang | null>(null);
-  useLanguage(); // re-render when locale changes
+  const { locale } = useLanguage();
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({ title: i18n.t('tabs.panchang') });
+  }, [locale]);
 
   useEffect(() => {
     if (!location) return;

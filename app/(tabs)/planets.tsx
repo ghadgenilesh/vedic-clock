@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from 'expo-router';
 
 import { Colors, Fonts } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
@@ -20,7 +21,12 @@ export default function PlanetsScreen() {
   const colors = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
   const [planets, setPlanets] = useState<Record<string, number>>({});
   const [ayanamsa, setAyanamsa] = useState(0);
-  useLanguage(); // re-render when locale changes
+  const { locale } = useLanguage();
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({ title: i18n.t('tabs.planets') });
+  }, [locale]);
 
   useEffect(() => {
     const now = new Date();

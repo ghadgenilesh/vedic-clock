@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from 'expo-router';
 
 import { Colors, Fonts } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
@@ -16,7 +17,12 @@ export default function SettingsScreen() {
   const [lat, setLat] = useState(location?.lat.toString() ?? '');
   const [lon, setLon] = useState(location?.lon.toString() ?? '');
   const [selectedLang, setSelectedLang] = useState(i18n.locale);
-  const { setLocale } = useLanguage();
+  const { locale, setLocale } = useLanguage();
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({ title: i18n.t('tabs.settings') });
+  }, [locale]);
 
   function applyManual() {
     const la = parseFloat(lat);
