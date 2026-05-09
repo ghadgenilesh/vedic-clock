@@ -176,6 +176,25 @@ export default function VedicClockScreen() {
         {error && (
           <Text style={[styles.locationHint, { color: colors.inauspicious }]}>{error}</Text>
         )}
+
+        {/* Guide / About section */}
+        <View style={[styles.guideCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+          <Text style={[styles.guideTitle, { color: colors.gold }]}>{i18n.t('guide.title')}</Text>
+
+          <Text style={[styles.guideSectionHead, { color: colors.text }]}>{i18n.t('guide.what')}</Text>
+          <Text style={[styles.guideBody, { color: colors.subText }]}>{i18n.t('guide.whatBody')}</Text>
+
+          <Text style={[styles.guideSectionHead, { color: colors.text }]}>{i18n.t('guide.significance')}</Text>
+          <Text style={[styles.guideBody, { color: colors.subText }]}>{i18n.t('guide.significanceBody')}</Text>
+
+          <Text style={[styles.guideSectionHead, { color: colors.text }]}>{i18n.t('guide.howToRead')}</Text>
+          <Text style={[styles.guideBody, { color: colors.subText }]}>{i18n.t('guide.howToReadBody')}</Text>
+
+          <Text style={[styles.guideSectionHead, { color: colors.text }]}>{i18n.t('guide.glossary')}</Text>
+          <Text style={[styles.guideDef, { color: colors.subText }]}>{'· '}{i18n.t('guide.ghatiDef')}</Text>
+          <Text style={[styles.guideDef, { color: colors.subText }]}>{'· '}{i18n.t('guide.palaDef')}</Text>
+          <Text style={[styles.guideDef, { color: colors.subText }]}>{'· '}{i18n.t('guide.vipalaDef')}</Text>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -250,4 +269,16 @@ const styles = StyleSheet.create({
   stripValue: { fontSize: 14, fontFamily: Fonts.sansSemiBold },
   divider: { width: 1, marginHorizontal: 4 },
   locationHint: { fontSize: 11, marginTop: 4, textAlign: 'center', paddingHorizontal: 16, fontFamily: Fonts.sans },
+  guideCard: {
+    width: '100%',
+    borderRadius: 16,
+    borderWidth: 1,
+    padding: 18,
+    marginTop: 16,
+    marginBottom: 8,
+  },
+  guideTitle: { fontSize: 20, fontFamily: Fonts.display, marginBottom: 16, letterSpacing: 0.5 },
+  guideSectionHead: { fontSize: 14, fontFamily: Fonts.sansSemiBold, marginTop: 12, marginBottom: 4 },
+  guideBody: { fontSize: 13, fontFamily: Fonts.sans, lineHeight: 20 },
+  guideDef: { fontSize: 13, fontFamily: Fonts.sans, lineHeight: 20, marginTop: 2 },
 });

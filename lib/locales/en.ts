@@ -6,4 +6,17 @@ export default {
   planets: { title: 'Graha (Planets)', rashi: 'Rashi', degrees: 'Degrees', ayanamsa: 'Lahiri Ayanamsa', graha: 'Graha', rashiChakra: 'Rashi Chakra' },
   settings: { title: 'Settings', language: 'Language', location: 'Location', autoDetect: 'Auto-detect GPS', manual: 'Set Location', latitude: 'Latitude', longitude: 'Longitude', theme: 'Theme', dark: 'Dark', light: 'Light', system: 'System', or: '— or —', about: 'About', invalidCoords: 'Invalid coordinates', invalidCoordsMsg: 'Latitude must be –90 to 90, longitude –180 to 180.' },
   common: { today: 'Today', loading: 'Loading...', error: 'Error', retry: 'Retry', to: 'to' },
+  guide: {
+    title: 'About the Vedic Clock',
+    what: 'What is it?',
+    whatBody: 'The Vedic day is not divided into 24 equal hours — it is divided into 60 Ghatis, counted from the moment of local sunrise. One Ghati is roughly 24 minutes; one Pala is 1/60th of a Ghati (≈ 24 seconds). Time is therefore anchored to nature, not to an arbitrary midnight.',
+    significance: 'Why does it matter?',
+    significanceBody: 'For thousands of years, Indian astronomy used this system to schedule rituals, auspicious events (Muhurtas), and to understand the quality of each moment. A Ghati is not just a unit of time — it reflects the position of the Sun relative to your horizon, making every reading unique to your location.',
+    howToRead: 'How to read the clock',
+    howToReadBody: 'The dial shows 60 dots — one per Ghati. The hand sweeps one full circle from sunrise to sunrise. The large number in the centre is the current Ghati (1–60). Below it is the Pala (1–60 within that Ghati). "Day" means the Sun is above the horizon; "Night" means it has set.',
+    glossary: 'Quick glossary',
+    ghatiDef: 'Ghati (घटी) — 1/60th of a day from sunrise ≈ 24 min',
+    palaDef: 'Pala (पल) — 1/60th of a Ghati ≈ 24 sec',
+    vipalaDef: 'Vipala (विपल) — 1/60th of a Pala ≈ 0.4 sec',
+  },
 };
