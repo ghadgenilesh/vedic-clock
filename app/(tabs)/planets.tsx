@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Colors } from '@/constants/theme';
+import { Colors, Fonts } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { i18n } from '@/lib/i18n';
 import { dateToJD, getRashi, lahiriAyanamsa, RASHIS, siderealPlanetLongitudes } from '@/lib/vedic-calc';
@@ -96,23 +96,23 @@ export default function PlanetsScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   scroll: { padding: 16, paddingBottom: 40 },
-  title: { fontSize: 26, fontWeight: '700', letterSpacing: 1.5, fontFamily: 'serif', textAlign: 'center' },
-  subtitle: { fontSize: 13, textAlign: 'center', marginTop: 4 },
-  ayanamsa: { fontSize: 11, textAlign: 'center', marginTop: 4, marginBottom: 16 },
+  title: { fontSize: 26, fontFamily: Fonts.display, letterSpacing: 1, textAlign: 'center' },
+  subtitle: { fontSize: 13, textAlign: 'center', marginTop: 4, fontFamily: Fonts.sans },
+  ayanamsa: { fontSize: 11, textAlign: 'center', marginTop: 4, marginBottom: 16, fontFamily: Fonts.sans },
   tableHeader: { flexDirection: 'row', borderBottomWidth: 1, paddingBottom: 8, marginBottom: 4 },
-  th: { fontSize: 12, fontWeight: '700', textTransform: 'uppercase', letterSpacing: 1 },
+  th: { fontSize: 12, fontFamily: Fonts.sansBold, textTransform: 'uppercase', letterSpacing: 1 },
   row: { flexDirection: 'row', alignItems: 'center', paddingVertical: 10, paddingHorizontal: 8, borderBottomWidth: StyleSheet.hairlineWidth, borderRadius: 8, marginBottom: 2 },
   cell: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   symbol: { fontSize: 18, width: 24 },
-  planetName: { fontSize: 14, fontWeight: '600' },
+  planetName: { fontSize: 14, fontFamily: Fonts.sansSemiBold },
   rashiSymbol: { fontSize: 16 },
-  rashiName: { fontSize: 14 },
-  degrees: { fontSize: 12, textAlign: 'right' },
+  rashiName: { fontSize: 14, fontFamily: Fonts.sans },
+  degrees: { fontSize: 12, textAlign: 'right', fontFamily: Fonts.sans },
   rashiGrid: {},
-  gridTitle: { fontSize: 16, fontWeight: '700', textAlign: 'center', marginBottom: 12 },
+  gridTitle: { fontSize: 16, fontFamily: Fonts.display, textAlign: 'center', marginBottom: 12 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
   rashiCell: { width: '23%', borderRadius: 8, borderWidth: 1, padding: 8, alignItems: 'center' },
-  rashiNum: { fontSize: 10 },
-  rashiCellName: { fontSize: 11, fontWeight: '600', textAlign: 'center' },
+  rashiNum: { fontSize: 10, fontFamily: Fonts.sans },
+  rashiCellName: { fontSize: 11, fontFamily: Fonts.sansSemiBold, textAlign: 'center' },
   rashiOccupants: { fontSize: 14, marginTop: 2 },
 });

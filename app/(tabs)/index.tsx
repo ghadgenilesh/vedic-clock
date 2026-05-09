@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Colors, VedicPalette } from '@/constants/theme';
+import { Colors, Fonts, VedicPalette } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { i18n } from '@/lib/i18n';
 import { useLocation } from '@/lib/location-context';
@@ -173,9 +173,9 @@ const CLOCK_SIZE = 280;
 const styles = StyleSheet.create({
   container: { flex: 1 },
   scroll: { alignItems: 'center', paddingVertical: 24, paddingHorizontal: 16 },
-  loading: { marginTop: 100, fontSize: 18 },
-  title: { fontSize: 26, fontWeight: '700', letterSpacing: 1.5, fontFamily: 'serif' },
-  date: { fontSize: 13, marginTop: 4, marginBottom: 24 },
+  loading: { marginTop: 100, fontSize: 18, fontFamily: Fonts.sans },
+  title: { fontSize: 26, fontFamily: Fonts.display, letterSpacing: 1 },
+  date: { fontSize: 13, marginTop: 4, marginBottom: 24, fontFamily: Fonts.sans },
   clockWrapper: { alignItems: 'center', justifyContent: 'center', marginBottom: 16 },
   clockFace: {
     width: CLOCK_SIZE,
@@ -189,10 +189,10 @@ const styles = StyleSheet.create({
   },
   tick: { position: 'absolute' },
   centerDisplay: { alignItems: 'center', justifyContent: 'center' },
-  ghatiText: { fontSize: 52, fontWeight: '800', fontFamily: 'serif', lineHeight: 56 },
-  ghatiLabel: { fontSize: 12, letterSpacing: 2, textTransform: 'uppercase' },
-  palaText: { fontSize: 20, fontWeight: '600', marginTop: 4 },
-  dayNight: { fontSize: 13, marginTop: 6, fontWeight: '600' },
+  ghatiText: { fontSize: 52, fontFamily: Fonts.display, lineHeight: 60 },
+  ghatiLabel: { fontSize: 12, letterSpacing: 2, textTransform: 'uppercase', fontFamily: Fonts.sans },
+  palaText: { fontSize: 20, fontFamily: Fonts.sansSemiBold, marginTop: 4 },
+  dayNight: { fontSize: 13, marginTop: 6, fontFamily: Fonts.sansSemiBold },
   handPivot: {
     position: 'absolute',
     top: CLOCK_SIZE / 2,
@@ -216,17 +216,17 @@ const styles = StyleSheet.create({
     top: CLOCK_SIZE / 2 - 5,
     left: CLOCK_SIZE / 2 - 5,
   },
-  digitalTime: { fontSize: 28, fontWeight: '300', letterSpacing: 2, fontFamily: 'serif' },
-  ghatiFormatted: { fontSize: 14, marginTop: 4, marginBottom: 20, letterSpacing: 1 },
   row: { flexDirection: 'row', gap: 12, marginBottom: 16, width: '100%' },
   infoCard: { flex: 1, borderRadius: 12, padding: 14, borderWidth: 1, alignItems: 'center' },
-  infoLabel: { fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4 },
-  infoValue: { fontSize: 18, fontWeight: '600' },
+  infoLabel: { fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4, fontFamily: Fonts.sans },
+  infoValue: { fontSize: 18, fontFamily: Fonts.sansSemiBold },
+  digitalTime: { fontSize: 22, fontFamily: Fonts.sansBold, marginTop: 8 },
+  ghatiFormatted: { fontSize: 13, fontFamily: Fonts.sans, marginTop: 2, marginBottom: 12 },
   strip: { flexDirection: 'row', borderRadius: 14, borderWidth: 1, padding: 12, width: '100%', marginBottom: 12 },
   stripItem: { flex: 1, alignItems: 'center' },
-  stripLabel: { fontSize: 10, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 3 },
-  stripValue: { fontSize: 14, fontWeight: '600' },
+  stripLabel: { fontSize: 10, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 3, fontFamily: Fonts.sans },
+  stripValue: { fontSize: 14, fontFamily: Fonts.sansSemiBold },
   divider: { width: 1, marginHorizontal: 4 },
-  location: { fontSize: 12, marginTop: 8 },
-  locationHint: { fontSize: 11, marginTop: 4, textAlign: 'center', paddingHorizontal: 16 },
+  location: { fontSize: 12, marginTop: 8, fontFamily: Fonts.sans },
+  locationHint: { fontSize: 11, marginTop: 4, textAlign: 'center', paddingHorizontal: 16, fontFamily: Fonts.sans },
 });

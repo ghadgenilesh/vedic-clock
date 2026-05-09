@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Colors } from '@/constants/theme';
+import { Colors, Fonts } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { i18n } from '@/lib/i18n';
 import { Festival, getUpcomingFestivals } from '@/lib/vedic-calc';
@@ -92,8 +92,8 @@ export default function FestivalsScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   scroll: { padding: 16, paddingBottom: 40 },
-  title: { fontSize: 26, fontWeight: '700', letterSpacing: 1.5, fontFamily: 'serif', textAlign: 'center' },
-  subtitle: { fontSize: 13, textAlign: 'center', marginTop: 4, marginBottom: 20, textTransform: 'uppercase', letterSpacing: 1 },
+  title: { fontSize: 26, fontFamily: Fonts.display, letterSpacing: 1, textAlign: 'center' },
+  subtitle: { fontSize: 12, textAlign: 'center', marginTop: 4, marginBottom: 20, textTransform: 'uppercase', letterSpacing: 1.5, fontFamily: Fonts.sansBold },
   card: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -104,9 +104,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   cardLeft: { flex: 1 },
-  festName: { fontSize: 16, fontWeight: '700' },
-  festDesc: { fontSize: 12, marginTop: 3 },
+  festName: { fontSize: 16, fontFamily: Fonts.sansBold },
+  festDesc: { fontSize: 12, marginTop: 3, fontFamily: Fonts.sans },
   cardRight: { alignItems: 'flex-end', marginLeft: 12 },
-  festDate: { fontSize: 14, fontWeight: '600' },
-  daysLeft: { fontSize: 12, marginTop: 2, fontWeight: '600' },
+  festDate: { fontSize: 14, fontFamily: Fonts.sansSemiBold },
+  daysLeft: { fontSize: 12, marginTop: 2, fontFamily: Fonts.sansSemiBold },
 });

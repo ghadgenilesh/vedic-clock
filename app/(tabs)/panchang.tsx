@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Colors } from '@/constants/theme';
+import { Colors, Fonts } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { i18n } from '@/lib/i18n';
 import { useLocation } from '@/lib/location-context';
@@ -136,13 +136,13 @@ export default function PanchangScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   scroll: { padding: 16, paddingBottom: 40 },
-  loading: { marginTop: 100, fontSize: 18, textAlign: 'center' },
-  title: { fontSize: 26, fontWeight: '700', letterSpacing: 1.5, fontFamily: 'serif', textAlign: 'center' },
-  subtitle: { fontSize: 13, textAlign: 'center', marginTop: 4, marginBottom: 20 },
+  loading: { marginTop: 100, fontSize: 18, textAlign: 'center', fontFamily: Fonts.sans },
+  title: { fontSize: 26, fontFamily: Fonts.display, letterSpacing: 1, textAlign: 'center' },
+  subtitle: { fontSize: 13, textAlign: 'center', marginTop: 4, marginBottom: 20, fontFamily: Fonts.sans },
   section: { borderRadius: 14, borderWidth: 1, marginBottom: 16, overflow: 'hidden' },
   sectionTitle: {
-    fontSize: 13,
-    fontWeight: '700',
+    fontSize: 12,
+    fontFamily: Fonts.sansBold,
     letterSpacing: 1.5,
     textTransform: 'uppercase',
     paddingHorizontal: 16,
@@ -157,10 +157,10 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  rowLabel: { fontSize: 14, flex: 1 },
+  rowLabel: { fontSize: 14, flex: 1, fontFamily: Fonts.sans },
   rowRight: { alignItems: 'flex-end' },
-  rowValue: { fontSize: 15, fontWeight: '600' },
-  rowSub: { fontSize: 11, marginTop: 2 },
+  rowValue: { fontSize: 15, fontFamily: Fonts.sansSemiBold },
+  rowSub: { fontSize: 11, marginTop: 2, fontFamily: Fonts.sans },
   footer: { borderTopWidth: StyleSheet.hairlineWidth, paddingTop: 12, alignItems: 'center' },
   footerText: { fontSize: 11 },
 });

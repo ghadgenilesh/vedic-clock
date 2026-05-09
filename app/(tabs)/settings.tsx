@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Colors } from '@/constants/theme';
+import { Colors, Fonts } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { i18n, setLocale, SUPPORTED_LANGUAGES } from '@/lib/i18n';
 import { useLocation } from '@/lib/location-context';
@@ -114,12 +114,12 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   scroll: { padding: 16, paddingBottom: 40 },
-  title: { fontSize: 26, fontWeight: '700', letterSpacing: 1.5, fontFamily: 'serif', textAlign: 'center', marginBottom: 20 },
-  sectionTitle: { fontSize: 11, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 8, marginTop: 4 },
+  title: { fontSize: 26, fontFamily: Fonts.display, letterSpacing: 1, textAlign: 'center', marginBottom: 20 },
+  sectionTitle: { fontSize: 11, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 8, marginTop: 4, fontFamily: Fonts.sansBold },
   card: { borderRadius: 14, borderWidth: 1, padding: 16, marginBottom: 20 },
   locationName: { fontSize: 14, marginBottom: 12, fontWeight: '600' },
   button: { borderRadius: 10, paddingVertical: 12, alignItems: 'center', marginBottom: 8 },
-  buttonText: { color: '#fff', fontWeight: '700', fontSize: 14 },
+  buttonText: { color: '#fff', fontFamily: Fonts.sansBold, fontSize: 14 },
   orText: { textAlign: 'center', marginVertical: 8, fontSize: 13 },
   input: {
     borderWidth: 1, borderRadius: 8, paddingHorizontal: 12, paddingVertical: 10,
@@ -129,8 +129,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
     paddingVertical: 12, paddingHorizontal: 8, borderBottomWidth: StyleSheet.hairlineWidth, borderRadius: 6,
   },
-  langLabel: { fontSize: 16 },
-  checkmark: { fontSize: 18, fontWeight: '700' },
-  aboutText: { fontSize: 18, fontWeight: '700', marginBottom: 8 },
-  aboutSub: { fontSize: 13, lineHeight: 20, marginBottom: 6 },
+  langLabel: { fontSize: 16, fontFamily: Fonts.sans },
+  checkmark: { fontSize: 18, fontFamily: Fonts.sansBold },
+  aboutText: { fontSize: 18, fontFamily: Fonts.display, marginBottom: 8 },
+  aboutSub: { fontSize: 13, lineHeight: 20, marginBottom: 6, fontFamily: Fonts.sans },
 });
