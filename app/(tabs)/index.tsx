@@ -172,7 +172,7 @@ const CLOCK_SIZE = 280;
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  scroll: { alignItems: 'center', paddingVertical: 24, paddingHorizontal: 16 },
+  scroll: { alignItems: 'center', paddingTop: 20, paddingBottom: 40, paddingHorizontal: 16 },
   loading: { marginTop: 100, fontSize: 18, fontFamily: Fonts.sans },
   title: { fontSize: 26, fontFamily: Fonts.display, letterSpacing: 1 },
   date: { fontSize: 13, marginTop: 4, marginBottom: 24, fontFamily: Fonts.sans },

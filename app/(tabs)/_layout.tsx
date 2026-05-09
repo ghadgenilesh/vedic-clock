@@ -21,15 +21,13 @@ export default function TabLayout() {
             backgroundColor: colors.surface,
             borderTopColor: colors.border,
             borderTopWidth: 1,
-            height: 64,
-            paddingBottom: 8,
-            paddingTop: 6,
+            paddingBottom: 10,
+            paddingTop: 8,
           },
           tabBarLabelStyle: {
             fontSize: 11,
             fontWeight: '600',
             letterSpacing: 0.3,
-            marginTop: 2,
           },
           tabBarIconStyle: {
             marginBottom: 0,
